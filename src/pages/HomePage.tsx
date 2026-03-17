@@ -1,7 +1,7 @@
 import type React from 'react';
 import { Button, Container } from 'react-bootstrap';
 
-const Home: React.FC = () => {
+const HomePage: React.FC = () => {
     return (
         <Container style={{ marginTop: '5rem' }}>
             <h1>CS571 Web Project</h1>
@@ -11,4 +11,4 @@ const Home: React.FC = () => {
     );
 };
 
-export default Home;
+export default HomePage;
