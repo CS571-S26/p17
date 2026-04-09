@@ -44,7 +44,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, onListChange }) => {
             </div>
             <Card.Body className="d-flex flex-column">
                 <Card.Title className="fs-6">{movie.title}</Card.Title>
-                <Card.Text className="text-muted small flex-grow-1">
+                <Card.Text className="small flex-grow-1">
                     {movie.release_date ? new Date(movie.release_date).getFullYear() : "N/A"}
                     {" · "}
                     {movie.overview?.slice(0, 80)}
