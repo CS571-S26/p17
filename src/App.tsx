@@ -2,14 +2,18 @@ import type React from "react";
 import { Route, Routes } from "react-router-dom";
 
 import Layout from "./components/Layout";
-import AboutPage from "./pages/AboutPage";
 import HomePage from "./pages/HomePage";
+import MoviesPage from "./pages/MoviesPage";
+import WatchlistPage from "./pages/WatchlistPage";
+import AboutPage from "./pages/AboutPage";
 
 const App: React.FC = () => {
     return (
         <Routes>
             <Route element={<Layout />}>
                 <Route index element={<HomePage />} />
+                <Route path="/movies" element={<MoviesPage />} />
+                <Route path="/watchlist" element={<WatchlistPage />} />
                 <Route path="/about" element={<AboutPage />} />
             </Route>
         </Routes>
