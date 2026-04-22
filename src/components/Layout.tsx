@@ -1,16 +1,9 @@
 import type React from "react";
-import { Container, Nav, Navbar, Badge } from "react-bootstrap";
+import { Container, Nav, Navbar } from "react-bootstrap";
 import { Link, Outlet, useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { getWatchlist } from "../services/storage";
 
 const Layout: React.FC = () => {
     const location = useLocation();
-    const [watchlistCount, setWatchlistCount] = useState(0);
-
-    useEffect(() => {
-        setWatchlistCount(getWatchlist().length);
-    }, [location]);
 
     return (
         <>
@@ -29,12 +22,7 @@ const Layout: React.FC = () => {
                                 Movies
                             </Nav.Link>
                             <Nav.Link as={Link} to="/watchlist" active={location.pathname === "/watchlist"}>
-                                Watchlist{" "}
-                                {watchlistCount > 0 && (
-                                    <Badge bg="warning" text="dark" pill>
-                                        {watchlistCount}
-                                    </Badge>
-                                )}
+                                Watchlist
                             </Nav.Link>
                             <Nav.Link as={Link} to="/about" active={location.pathname === "/about"}>
                                 About

@@ -5,19 +5,25 @@ import { useState } from "react";
 interface SearchBarProps {
     onSearch: (query: string) => void;
     placeholder?: string;
+    activeQuery: boolean;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ onSearch, placeholder = "Search movies..." }) => {
+const SearchBar: React.FC<SearchBarProps> = ({ onSearch, placeholder = "Search movies...", activeQuery }) => {
     const [query, setQuery] = useState("");
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = (e: React.SubmitEvent) => {
         e.preventDefault();
         if (query.trim()) onSearch(query.trim());
     };
 
+    const handleClear = () => {
+        setQuery("");
+        onSearch("");
+    }
+
     return (
-        <Form onSubmit={handleSubmit}>
-            <InputGroup>
+        <Form onSubmit={handleSubmit} style={{display: "flex", flexDirection: "row", justifyContent: "space-between", flex: 1}}>
+            <InputGroup style={{ maxWidth: 500 }}>
                 <Form.Control
                     type="text"
                     placeholder={placeholder}
@@ -29,6 +35,16 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, placeholder = "Search m
                     Search
                 </Button>
             </InputGroup>
+            {
+                activeQuery &&
+                    <Button
+                        variant="outline-danger"
+                        style={{ textWrap: "nowrap" }}
+                        onClick={handleClear}
+                    >
+                        Clear Search
+                    </Button>
+            }
         </Form>
     );
 };

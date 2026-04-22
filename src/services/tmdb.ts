@@ -27,6 +27,32 @@ export interface Movie {
     popularity: number;
 }
 
+export interface MovieDetails extends Movie {
+    genres: Array<{ id: number; name: string }>;
+    runtime: number | null;
+    tagline: string;
+    status: string;
+    homepage: string;
+    original_language: string;
+    budget: number;
+    revenue: number;
+    production_companies: Array<{
+        id: number;
+        name: string;
+        logo_path: string | null;
+        origin_country: string;
+    }>;
+    production_countries: Array<{
+        iso_3166_1: string;
+        name: string;
+    }>;
+    spoken_languages: Array<{
+        english_name: string;
+        iso_639_1: string;
+        name: string;
+    }>;
+}
+
 export interface PaginatedResponse<T> {
     page: number;
     results: T[];
@@ -34,8 +60,23 @@ export interface PaginatedResponse<T> {
     total_results: number;
 }
 
+export const getMovieDetails = (movieId: number) =>
+    fetchTMDB<MovieDetails>(`/movie/${movieId}`);
+
 export const getTrendingMovies = (page = 1) =>
     fetchTMDB<PaginatedResponse<Movie>>("/trending/movie/week", { page: String(page) });
 
 export const searchMovies = (query: string, page = 1) =>
     fetchTMDB<PaginatedResponse<Movie>>("/search/movie", { query, page: String(page) });
+
+export const getPopularMovies = (page = 1) =>
+    fetchTMDB<PaginatedResponse<Movie>>("/movie/popular", { page: String(page) });
+
+export const getTopRatedMovies = (page = 1) =>
+    fetchTMDB<PaginatedResponse<Movie>>("/movie/top_rated", { page: String(page) });
+
+export const getNowPlayingMovies = (page = 1) =>
+    fetchTMDB<PaginatedResponse<Movie>>("/movie/now_playing", { page: String(page) });
+
+export const getUpcomingMovies = (page = 1) =>
+    fetchTMDB<PaginatedResponse<Movie>>("/movie/upcoming", { page: String(page) });
