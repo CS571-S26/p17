@@ -23,7 +23,7 @@ const AboutPage: React.FC = () => {
                         <Card className="bg-dark text-light border-secondary text-center p-3">
                             <Card.Body>
                                 <Card.Title>{member.name}</Card.Title>
-                                <Card.Text className="text-muted">
+                                <Card.Text className="text-secondary">
                                     <a
                                         href={`https://github.com/${member.github}`}
                                         target="_blank"
