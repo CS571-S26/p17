@@ -27,3 +27,7 @@ export const removeFromWatchlist = (movieId: number): void => {
 export const isInWatchlist = (movieId: number): boolean => {
     return getWatchlist().some((item) => item.movie.id === movieId);
 };
+
+export const clearWatchlist = (): void => {
+    localStorage.removeItem(WATCHLIST_KEY);
+};

@@ -56,9 +56,9 @@ const HomePage: React.FC = () => {
                     <Container className="position-relative h-100 d-flex flex-column justify-content-end pb-4">
                         <h1 className="text-white fw-bold display-5">{hero.title}</h1>
                         <p className="text-light mb-3" style={{ maxWidth: 550 }}>
-                            {hero.overview?.slice(0, 180)}{hero.overview?.length > 180 ? "..." : ""}
+                            {hero.overview?.slice(0, 230)}{hero.overview?.length > 230 ? "..." : ""}
                         </p>
-                        <Link to="/movies" className="btn btn-warning">
+                        <Link to="/movies" className="btn btn-warning" style={{ maxWidth: 250 }}>
                             Browse All Movies
                         </Link>
                     </Container>
