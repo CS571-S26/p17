@@ -24,6 +24,9 @@ const Layout: React.FC = () => {
                             <Nav.Link as={Link} to="/watchlist" active={location.pathname === "/watchlist"}>
                                 Watchlist
                             </Nav.Link>
+                            <Nav.Link as={Link} to="/watched" active={location.pathname === "/watched"}>
+                                Watched
+                            </Nav.Link>
                             <Nav.Link as={Link} to="/about" active={location.pathname === "/about"}>
                                 About
                             </Nav.Link>

@@ -2,7 +2,6 @@ import type React from "react";
 import { useEffect, useState } from "react";
 import { Modal, Button, Badge, Image, Row, Col, Stack, Alert } from "react-bootstrap";
 import { getImageUrl, getMovieDetails, type Movie, type MovieDetails } from "../services/tmdb";
-import { addToWatchlist, removeFromWatchlist, isInWatchlist } from "../services/storage";
 import LoadingSpinner from "./LoadingSpinner";
 
 interface MovieModalProps {
@@ -10,21 +9,17 @@ interface MovieModalProps {
     movieId: number;
     show: boolean;
     onHide: () => void;
-    onListChange?: () => void;
-    onWatchlistToggle?: () => void;
+    onWatchlistToggle: () => void;
+    handleRate: () => void;
+    userRating: number | null;
+    inWatchlist: boolean;
+    inWatched: boolean;
 }
 
-const MovieModal: React.FC<MovieModalProps> = ({ movie, movieId, show, onHide, onListChange, onWatchlistToggle }) => {
+const MovieModal: React.FC<MovieModalProps> = ({ movie, movieId, show, onHide, onWatchlistToggle, handleRate, userRating, inWatchlist, inWatched }) => {
     const [details, setDetails] = useState<MovieDetails | null>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
-    const [isSaved, setIsSaved] = useState(isInWatchlist(movieId));
-
-    useEffect(() => {
-        if (show) {
-            setIsSaved(isInWatchlist(movieId));
-        }
-    }, [show, movieId]);
 
     useEffect(() => {
         if (!show) return;
@@ -49,22 +44,6 @@ const MovieModal: React.FC<MovieModalProps> = ({ movie, movieId, show, onHide, o
         };
     }, [show, movieId]);
 
-    const handleToggle = () => {
-        if (onWatchlistToggle) {
-            onWatchlistToggle();
-            setIsSaved((prev) => !prev);
-        } else {
-            if (isSaved) {
-                removeFromWatchlist(movieId);
-                setIsSaved(false);
-            } else {
-                addToWatchlist(movie);
-                setIsSaved(true);
-            }
-        }
-        onListChange?.();
-    };
-
     const genres = details?.genres?.map((genre) => genre.name).join(", ");
     const runtime = details?.runtime ? `${Math.floor(details.runtime / 60)}h ${details.runtime % 60}m` : null;
     const productionCompanies = details?.production_companies?.map((company) => company.name).join(", ");
@@ -75,7 +54,7 @@ const MovieModal: React.FC<MovieModalProps> = ({ movie, movieId, show, onHide, o
     const poster = getImageUrl(details?.poster_path ?? movie.poster_path, "w500");
 
     return (
-        <Modal show={show} onHide={onHide} size="lg" centered contentClassName="bg-dark text-light">
+        <Modal show={show} onHide={onHide} size="lg" centered contentClassName="bg-dark text-light" id="movie-modal">
             <Modal.Header closeButton closeVariant="white">
                 <Modal.Title>{movie.title}</Modal.Title>
             </Modal.Header>
@@ -149,8 +128,17 @@ const MovieModal: React.FC<MovieModalProps> = ({ movie, movieId, show, onHide, o
                 )}
             </Modal.Body>
             <Modal.Footer className="border-top border-secondary">
-                <Button variant={isSaved ? "warning" : "outline-warning"} onClick={handleToggle}>
-                    {isSaved ? "★ Remove from Watchlist" : "☆ Add to Watchlist"}
+                <Button variant={inWatchlist ? "warning" : "outline-warning"} onClick={onWatchlistToggle}>
+                    {
+                        inWatchlist ? "★ Remove from Watchlist" :
+                            inWatched ? "Switch to Watchlist" : "☆ Add to Watchlist"
+                    }
+                </Button>
+                <Button variant={inWatched ? "warning" : "outline-warning"} onClick={handleRate}>
+                    {
+                        inWatched ? `Rated ${userRating}/10` :
+                            inWatchlist ? "Already Watched?" : "Rate"
+                    }
                 </Button>
                 <Button variant="secondary" onClick={onHide}>
                     Close
