@@ -23,12 +23,9 @@ const WatchedPage: React.FC = () => {
             <h1 className="mb-2">My Watched Movies</h1>
             <p className="text-secondary mb-4">{items.length} movie{items.length !== 1 ? "s" : ""} watched</p>
 
-            {
-                items.length > 0 && 
-                    <Button variant="outline-danger" onClick={clear} className="mb-4 mr-0 ml-auto">
-                        Clear Watched Movies
-                    </Button>
-            }
+            <Button variant="outline-danger" onClick={clear} className="mb-4 mr-0 ml-auto" disabled={items.length === 0}>
+                Clear Watched Movies
+            </Button>
 
             {
                 items.length === 0 ? (

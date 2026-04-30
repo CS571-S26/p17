@@ -1,5 +1,4 @@
-const API_KEY = "86be8ea00274c43b87aecb619ddab3d7";
-const BASE_URL = "https://api.themoviedb.org/3";
+const BASE_URL = "/api/tmdb-proxy";
 const IMG_BASE = "https://image.tmdb.org/t/p";
 
 export const getImageUrl = (path: string | null, size = "w500"): string => {
@@ -8,7 +7,7 @@ export const getImageUrl = (path: string | null, size = "w500"): string => {
 };
 
 async function fetchTMDB<T>(endpoint: string, params: Record<string, string> = {}): Promise<T> {
-    const searchParams = new URLSearchParams({ api_key: API_KEY, ...params });
+    const searchParams = new URLSearchParams(params);
     const res = await fetch(`${BASE_URL}${endpoint}?${searchParams}`);
     if (!res.ok) throw new Error(`TMDB API error: ${res.status}`);
     return res.json();
@@ -60,23 +59,26 @@ export interface PaginatedResponse<T> {
     total_results: number;
 }
 
-export const getMovieDetails = (movieId: number) =>
-    fetchTMDB<MovieDetails>(`/movie/${movieId}`);
+export const getMovieDetails = async (movieId: number) =>
+    fetchTMDB<MovieDetails>("/details", { movieId: String(movieId) });
 
-export const getTrendingMovies = (page = 1) =>
-    fetchTMDB<PaginatedResponse<Movie>>("/trending/movie/week", { page: String(page) });
+export const getTrendingMovies = () =>
+    fetchTMDB<PaginatedResponse<Movie>>("/trending");
 
 export const searchMovies = (query: string, page = 1) =>
-    fetchTMDB<PaginatedResponse<Movie>>("/search/movie", { query, page: String(page) });
+    fetchTMDB<PaginatedResponse<Movie>>("/search", { title: query, page: String(page) });
+
+export const getMovie = (title: string, year: number) =>
+    fetchTMDB<PaginatedResponse<Movie>>("/search", { title, year: String(year) });
 
 export const getPopularMovies = (page = 1) =>
-    fetchTMDB<PaginatedResponse<Movie>>("/movie/popular", { page: String(page) });
+    fetchTMDB<PaginatedResponse<Movie>>("/popular", { page: String(page) });
 
 export const getTopRatedMovies = (page = 1) =>
-    fetchTMDB<PaginatedResponse<Movie>>("/movie/top_rated", { page: String(page) });
+    fetchTMDB<PaginatedResponse<Movie>>("/top-rated", { page: String(page) });
 
 export const getNowPlayingMovies = (page = 1) =>
-    fetchTMDB<PaginatedResponse<Movie>>("/movie/now_playing", { page: String(page) });
+    fetchTMDB<PaginatedResponse<Movie>>("/now-playing", { page: String(page) });
 
 export const getUpcomingMovies = (page = 1) =>
-    fetchTMDB<PaginatedResponse<Movie>>("/movie/upcoming", { page: String(page) });
+    fetchTMDB<PaginatedResponse<Movie>>("/upcoming", { page: String(page) });
