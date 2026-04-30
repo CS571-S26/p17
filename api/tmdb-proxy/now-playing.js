@@ -1,8 +1,9 @@
-import { fetchTMDB } from "./_util";
+import { fetchTMDB } from "./_util.js";
 
 export default async function handler(request, response) {
     const { page } = request.query;
 
     const res = await fetchTMDB("/movie/now_playing", { page });
-    return response.status(res.status).json(res.json());
+    const data = await res.json();
+    return response.status(res.status).json(data);
 };

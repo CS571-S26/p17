@@ -60,11 +60,7 @@ export const recommendationRequest = async (): Promise<Movie[]> => {
         });
         const response = await request.json();
 
-        if (response.text) {
-            return await getRecommendedMovies(JSON.parse(response.text) as GeminiRecommendation[]);
-        } else {
-            throw new Error("Gemini API Error: No text response");
-        }
+        return await getRecommendedMovies(JSON.parse(response) as GeminiRecommendation[]);
     } catch (err) {
         console.error(err);
         return [];

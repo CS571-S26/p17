@@ -13,8 +13,8 @@ interface RecommendationModalProps {
 
 const RecommendationModal: React.FC<RecommendationModalProps> = ({ show, onHide, onListChange }) => {
     const [recommendations, setRecommendations] = useState<Movie[]>([]);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(true);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
 
     useEffect(() => {
         refresh();

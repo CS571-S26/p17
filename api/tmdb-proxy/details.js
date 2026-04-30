@@ -1,4 +1,4 @@
-import { fetchTMDB } from "./_util";
+import { fetchTMDB } from "./_util.js";
 
 export default async function handler(request, response) {
     const { movieId } = request.query;
@@ -6,5 +6,6 @@ export default async function handler(request, response) {
     if (!movieId) return response.status(400).json({ error: "'movieId' parameter is required" });
 
     const res = await fetchTMDB(`/movie/${movieId}`);
-    return response.status(res.status).json(res.json());
+    const data = await res.json();
+    return response.status(res.status).json(data);
 };
