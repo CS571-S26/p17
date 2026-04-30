@@ -33,5 +33,5 @@
     "vercel": "^52.2.0",
     "vite": "^8.0.0"
   },
-  "homepage": "https://cs571-s26.github.io/p17/"
+  "homepage": "https://cs571-p17.vercel.app/"
 }
